@@ -14,6 +14,10 @@ let app = new Vue({ // The Vue instance
     },
 
     created: function () {
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("service-worker.js");
+      }
+
       fetch("http://webstore-env.eba-fu3rpgag.eu-west-2.elasticbeanstalk.com/collections/products")
         .then((response) => response.json())
         .then((lessons) => {
@@ -22,22 +26,6 @@ let app = new Vue({ // The Vue instance
         });
       // this.getLessons();
       return;
-    },
-
-    watch: {
-      searchTerm: {
-          handler() {
-            if(this.searchTerm === "")
-              this.getLessons();
-          },
-          deep: true,
-      },
-    },
-
-    created: function(){
-      if ("serviceWorker" in navigator){
-        navigator.serviceWorker.register("service-worker.js");
-      }
     },
 
     methods:{ // methods to be used
