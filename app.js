@@ -33,6 +33,13 @@ let app = new Vue({ // The Vue instance
           deep: true,
       },
     },
+
+    created: function(){
+      if ("serviceWorker" in navigator){
+        navigator.serviceWorker.register("service-worker.js");
+      }
+    },
+
     methods:{ // methods to be used
       getLessons() {
         const url = `${this.url}/collections/products`;
