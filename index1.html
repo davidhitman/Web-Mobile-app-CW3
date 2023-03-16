@@ -15,10 +15,10 @@
     <div id="app">
         <div v-if="showLesson" > <!-- check if the lessons page should display or the basket page should display-->
             <div class="head"> <!--div with search input and basket, ascend and descend button-->
-                <p >
+                <!--<p >
                     <input class="search" type="text" placeholder="Search Lesson">
                     <button class="btn-search" type="submit" value="Submit">Search</button>
-                </p>
+                </p> -->
                 <button class="basketBtnEnable" v-if="enableCheckout" v-on:click="showCheckout" ><span class="fa fa-shopping-basket">{{totalItems}}</span>Basket</button>
                 <button  class="basketBtnDisable" v-else disabled><span class="fa fa-shopping-basket">{{totalItems}}</span>Basket</button>
                 <button class="Ascend"  v-on:click="lesson in Ascending">Ascend</button>
