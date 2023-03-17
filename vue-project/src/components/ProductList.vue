@@ -16,8 +16,8 @@
                             Space: {{lesson.spaces}}
                         </p>
                         <!-- check out buttons-->
-                       <!-- <button class="Addbtn" id="addButt" v-on:click= "addToCart(lesson)" v-if="canAddToCart(lesson)"> Add to cart</button>
-                        <button  id="Addbtn" v-else disabled>Add to cart</button> -->
+                       <button class="Addbtn" id="addButt" v-on:click="addToCart(lesson)" v-if="canAddToCart(lesson)"> Add to cart</button>
+                        <button  id="Addbtn" v-else disabled>Add to cart</button> 
                     </div>
                 </div>
             </div>
@@ -32,22 +32,22 @@ export default {
     return{}
   },
   methods: {
-    //cartCount(id){ // count the items in cart
-      //  let count = 0;
-        //for(let i=0; i< this.cart.length; i++){
-          //  if (this.cart[i] === id){
-            //    count ++;
-            //}
-//         }
-//         return count;
-//     },
-//     canAddToCart(lesson){ // checking if you can add more items to the cart
-//         // if the current lesson spaces are not eqaul to zero meaning there's no more lessons to add
-//         return lesson.spaces > this.cartCount(lesson.id); 
-//     },
-//     addToCart: function(lesson) {
-//       this.$emit("add-item-to-cart", lesson)
-//     }
+    cartCount(id){ // count the items in cart
+       let count = 0;
+        for(let a=0; a< this.cart.length; a++){
+           if (this.cart[a] === id){
+               count ++;
+            }
+        }
+        return count;
+    },
+    canAddToCart(lesson){ // checking if you can add more items to the cart
+        // if the current lesson spaces are not eqaul to zero meaning there's no more lessons to add
+        return lesson.spaces > this.cartCount(lesson.id); 
+    },
+    addToCart: function(lesson) {
+      this.$emit("add-item-to-cart", lesson)
+    }
   }
 }
 </script>

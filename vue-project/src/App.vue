@@ -11,7 +11,7 @@
       <button class="Descend" v-on:click="lesson in Descending">Descend</button>
     </div>
     <main>
-      <component :is="currentView" :products="products"></component>
+      <component :is="currentView" :products="products" :cart="cart" @add-item-to-cart="add"></component>
     </main>
     
   </div>
