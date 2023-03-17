@@ -1,37 +1,66 @@
-let app = new Vue({ // The Vue instance
-    el: '#app',
-    data: {
-         lessons:[],
-         showLesson: true,
-         show: false,
-         url: "Webstore-env.eba-fu3rpgag.eu-west-2.elasticbeanstalk.com",
-         cart:[],
-         search:'',
-         order: {
-            name:'',
-            phone:''
-        },
-    },
-    components: {
-      "my-parent-component": ParentComponent,
-      "my-lesson-component": LessonComponent 
+<template>
+  <div id="app">
+    <div class="head"> <!--div with search input and basket, ascend and descend button-->
+      <p>
+        <input class="search" type="text"  placeholder="Search Lesson">
+        <!--<button class="btn-search" type="submit" value="Submit" >Search</button>-->
+      </p>
+      <button class="basketBtnEnable" v-if="enableCheckout" v-on:click="showCheckout" ><span class="fa fa-shopping-basket">{{totalItems}}</span>Basket</button>
+      <button  class="basketBtnDisable" v-else disabled><span class="fa fa-shopping-basket">{{totalItems}}</span>Basket</button>
+      <button class="Ascend"  v-on:click="lesson in Ascending">Ascend</button>
+      <button class="Descend" v-on:click="lesson in Descending">Descend</button>
+    </div>
+  </div>
+</template>
 
+<script>
+  import ProductList from "./components/ProductList.vue";
+  import Checkout from "./components/Checkout.vue";
+
+  export default {
+    name: "app",
+    data() {
+      return {
+        lessons:[],
+        show: false,
+        url:"http://webstore-env.eba-fu3rpgag.eu-west-2.elasticbeanstalk.com/collections/products",
+        cart:[],
+        search:'',
+        order: {
+          name:'',
+          phone:'',
+        },
+        currentView:ProductList
+      };
+    },
+    components: { 
+      ProductList, 
+      Checkout 
     },
 
     created: function () {
-      if ("serviceWorker" in navigator){
-        navigator.serviceWorker.register("service-worker.js");
-      }
-      fetch("http://webstore-env.eba-fu3rpgag.eu-west-2.elasticbeanstalk.com/collections/products")
-        .then((response) => response.json())
-        .then((lessons) => {
-          this.lessons = lessons;
-          return;
-        });
-      return;
+      //if ("serviceWorker" in navigator){
+       // navigator.serviceWorker.register("service-worker.js");
+     // }
+
+
+      let webstore = this;
+      fetch(this.url).then( function (response) {
+        response.json().then( function (json) { 
+          webstore.products = json; 
+        })
+      }) 
     },
 
-    methods:{ // methods to be used
+    methods: { 
+      showCheckout() {
+        if (this.currentView === ProductList){
+          this.currentView = Checkout
+        }else {
+          this.currentView = this.currentView = ProductList;
+        }
+      },
+
       getLessons() {
         const url = `${this.url}/collections/products`;
         fetch(url)
@@ -111,11 +140,7 @@ let app = new Vue({ // The Vue instance
             }
             
         },
-        showCheckout: function() { // check out fuction to show the checkout section when checkout button is clicked
-            this.showLesson = this.showLesson? false: true;
-        },
-      },
-
+    },
     computed:{ // computed functions
         
         totalItems: function(){ // return the total items in cart
@@ -146,10 +171,5 @@ let app = new Vue({ // The Vue instance
             return isnum == true && isletter == true
         },
     }
-        
-});
-
-
-
-
-
+  };
+</script>
