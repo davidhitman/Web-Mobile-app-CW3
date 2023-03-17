@@ -10,6 +10,7 @@
       <button class="Ascend"  v-on:click="lesson in Ascending">Ascend</button>
       <button class="Descend" v-on:click="lesson in Descending">Descend</button>
     </div>
+    <component :is="currentView"></component>
   </div>
 </template>
 
