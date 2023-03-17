@@ -10,7 +10,10 @@
       <button class="Ascend"  v-on:click="lesson in Ascending">Ascend</button>
       <button class="Descend" v-on:click="lesson in Descending">Descend</button>
     </div>
-    <component :is="currentView"></component>
+    <main>
+      <component :is="currentView" :products="products"></component>
+    </main>
+    
   </div>
 </template>
 
@@ -22,16 +25,15 @@
     name: "app",
     data() {
       return {
-        lessons:[],
-        show: false,
+        currentView:ProductList,
+        products:[],
         url:"http://webstore-env.eba-fu3rpgag.eu-west-2.elasticbeanstalk.com/collections/products",
         cart:[],
         search:'',
         order: {
           name:'',
           phone:'',
-        },
-        currentView:ProductList
+        }
       };
     },
     components: { 
@@ -45,10 +47,10 @@
      // }
 
 
-      let webstore = this;
+      let WebStore = this;
       fetch(this.url).then( function (response) {
         response.json().then( function (json) { 
-          webstore.products = json; 
+          WebStore.products = json; 
         })
       }) 
     },
@@ -85,7 +87,7 @@
           }
         }
         return null
-        },
+      },
         addToCart (lesson) { // adding an item to cart
             let cartItem = this.getCartItem(lesson);
             //If item is already in cart, then increase quantity. If not, push lesson to cart
@@ -140,6 +142,9 @@
                 this.cart.splice(itemIndex, 1); // remove the item at position itemIndex 
             }
             
+        },
+        showCheckout: function() { // check out fuction to show the checkout section when checkout button is clicked
+            this.showLesson = this.showLesson? false: true;
         },
     },
     computed:{ // computed functions
