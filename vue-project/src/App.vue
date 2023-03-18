@@ -1,3 +1,4 @@
+
 <template>
   <div id="app">
     <div class="head"> <!--div with search input and basket, ascend and descend button-->
@@ -5,13 +6,14 @@
         <input class="search" type="text"  placeholder="Search Lesson">
         <!--<button class="btn-search" type="submit" value="Submit" >Search</button>-->
       </p>
-      <button class="basketBtnEnable" v-if="enableCheckout" v-on:click="showCheckout" ><span class="fa fa-shopping-basket">{{totalItems}}</span>Basket</button>
+      <button class="basketBtnEnable" v-if="enableCheckout" @click="showCheckoutPage" ><span class="fa fa-shopping-basket">{{totalItems}}</span>Basket</button>
       <button  class="basketBtnDisable" v-else disabled><span class="fa fa-shopping-basket">{{totalItems}}</span>Basket</button>
       <button class="Ascend"  v-on:click="lesson in Ascending">Ascend</button>
       <button class="Descend" v-on:click="lesson in Descending">Descend</button>
     </div>
+  
     <main>
-      <component :is="currentView" :products="products" :cart="cart" @add-item-to-cart="addToCart"></component>
+      <component :is="currentView" :products="products" :cart="cart" @add-item-to-cart="addToCart" @remove-item-from-cart="removeItem"></component>
     </main>
     
   </div>
@@ -56,11 +58,11 @@
     },
 
     methods: { 
-      showCheckout() {
+      showCheckoutPage() {
         if (this.currentView === ProductList){
           this.currentView = Checkout
         }else {
-          this.currentView = this.currentView = ProductList;
+          this.currentView = ProductList;
         }
       },
 
@@ -73,8 +75,8 @@
             }
             return response.json();
           })
-          .then((lessons) => {
-            this.lessons = lessons;
+          .then((products) => {
+            this.products = products;
           })
           .catch((Error) => {
             console.log("Error", Error);
@@ -141,14 +143,17 @@
                 let itemIndex = this.cart.indexOf(item); // return the position of the item in the cart array
                 this.cart.splice(itemIndex, 1); // remove the item at position itemIndex 
             }
+            if (this.cart.length===0){
+              this.currentView = ProductList;
+            }
             
         },
-        showCheckout: function() { // check out fuction to show the checkout section when checkout button is clicked
-            this.showLesson = this.showLesson? false: true;
-        },
+       
     },
     computed:{ // computed functions
-      
+      totalItems: function(){ // return the total items in cart
+        return this.cart.length
+      },
         Ascending(){ // arranges items in ascending order
             function compare(a, b){
                 if (a.price > b.price) return 1;
