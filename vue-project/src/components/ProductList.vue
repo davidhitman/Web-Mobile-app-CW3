@@ -17,7 +17,7 @@
                         </p>
                         <!-- check out buttons-->
                        <button class="Addbtn" id="addButt" v-on:click="addToCart(lesson)" v-if="canAddToCart(lesson)"> Add to cart</button>
-                        <button  id="Addbtn" v-else disabled>Add to cart</button> 
+                        <!--<button  id="Addbtn" v-else disabled>Add to cart</button>  -->
                     </div>
                 </div>
             </div>

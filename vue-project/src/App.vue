@@ -11,7 +11,7 @@
       <button class="Descend" v-on:click="lesson in Descending">Descend</button>
     </div>
     <main>
-      <component :is="currentView" :products="products" :cart="cart" @add-item-to-cart="add"></component>
+      <component :is="currentView" :products="products" :cart="cart" @add-item-to-cart="addToCart"></component>
     </main>
     
   </div>
@@ -81,7 +81,7 @@
           });
       },
       getCartItem(lesson) { // getting the item stored in cart
-        for (i = 0; i < this.cart.length; i++) {
+        for (let i = 0; i < this.cart.length; i++) {
           if(this.cart[i].lesson.id === lesson.id) {
               return this.cart[i]
           }
@@ -148,10 +148,7 @@
         },
     },
     computed:{ // computed functions
-        
-        totalItems: function(){ // return the total items in cart
-            return this.cart.length
-        },
+      
         Ascending(){ // arranges items in ascending order
             function compare(a, b){
                 if (a.price > b.price) return 1;
